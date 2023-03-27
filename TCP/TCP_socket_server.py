@@ -1,5 +1,6 @@
 import socket
 import datetime
+import sys
 
 
 def get_time_since_1900_bin ():
@@ -25,44 +26,75 @@ def get_time_since_1900_bin ():
         return 'error'
 
 def server_program():
-    # get the hostname
-    host = socket.gethostname() # Replace with server IP!
-    port = 37  # initiate port no above 1024
+    host = socket.gethostname()
+    port = int(sys.argv[1])
 
-    server_socket = socket.socket(type=socket.SOCK_STREAM)  #instantiate TCP socket
-    print("Created TCP socket")
-
-    # look closely. The bind() function takes tuple as argument
+    # Instantiate TCP socket & bind host to port
+    server_socket = socket.socket(type=socket.SOCK_STREAM)  
     server_socket.bind((host, port))  # bind host address and port together
-    print(f"Bind socket to host: {host}, port: {port}")
     
-    # S1: Listen on port 37
+    # ---- User feedback ----
+    print(f"Bound socket to host: {host}, port: {port}")
+    # -----------------------
+
+    # Start listening
     server_socket.listen(1) # arg: configure how many client the server can listen simultaneously
+
+    # ---- User feedback ----
     print(f"Started listening at port {port}")
-    conn, address = server_socket.accept()  # accept new connection
-    print("Accpedted connection from: " + str(address)) 
-    
-    # S2: Send the time as a 32 bit binary number.
-    data = get_time_since_1900_bin()
-    
-    # Close connection if unable to get time on site
-    # Else send time
-    if data != -1:
-        conn.send(data.encode())  # send data to the client
-        print("Time was send to client")
+    # -----------------------
 
-        # S3: Close the connection
-        # Wait for client to close connection first
-        print("Waitng for client to disconnect")
-        while True:
-            # Check if client have disconnected
-            data = conn.recv(1024).decode()
-            if not data:
-                print("Client disconnected")
-                break
+    while True:
+        # ----- User feedback -----
+        print("Awaiting new connection")
+        # -------------------------
+        
+        # Wait for new connection to accept - blocking call
+        conn, address = server_socket.accept()  
+        
+        # ----- User feedback -----
+        print("Accepted connection from: " + str(address)) 
+        # -------------------------
 
-    conn.close()  # close the connection
-    print("Closed connection")
+        # S2: Get the time as a 32 bit binary
+        data = get_time_since_1900_bin()
+        
+        # Close connection if unable to get time on site
+        # else send time
+        if data != 'error':
+            conn.send(data.encode())  # send data to the client
+            
+            # ---- User feedback ----
+            print("Time was send to client")
+            # -----------------------
+
+            # ---- User feedback ---- 
+            print("Waiting for client to disconnect")
+            # -----------------------
+
+            # S3: Close the connection
+            # Wait for client to close connection first
+            while True:
+                # Check if client have disconnected
+                data = conn.recv(1024).decode()
+                if not data:
+                    # ----- User feedback -----
+                    print("Client disconnected")
+                    # -------------------------
+
+                    break
+
+        # Close the connection
+        conn.close()  
+
+        # ---- User feedback ----
+        print("Closed connection")
+        # -----------------------
+
+        # Give user opertunity to terminate
+        x = input('Do you want to terminate the server? Y: Yes, N: No \n').lower()
+        if x == 'y' or x == 'yes':
+            break
 
 
 if __name__ == '__main__':

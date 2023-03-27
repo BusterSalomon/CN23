@@ -1,5 +1,6 @@
 import socket
 import datetime
+import sys
 
 
 def get_time_since_1900_bin ():
@@ -25,34 +26,60 @@ def get_time_since_1900_bin ():
         return 'error'
 
 def server_program():
-    # get the hostname
-    print('Created host + port')
     host = socket.gethostname() # Replace with server IP!
-    port = 37  # initiate port no above 1024
+    port = int(sys.argv[1])
 
-    print('Created socket')
+    # Instantiate UDP socket
     server_socket = socket.socket(type=socket.SOCK_DGRAM)  # instantiate UDP socket
     
-    print('Bind socket to port')
-    server_socket.bind((host, port))  # bind host address and port together
+      # ---- User feedback -----
+    print('Created socket')
+    # ------------------------
+
+    # Bind host address and port together
+    server_socket.bind((host, port))  
+    
+    # ---- User feedback -----
+    print(f'Host {host} bound to port {port} ')
+    # ------------------------
 
     # S2, S3: Receieve empty datagram and send datagram containing time
-    print('Waiting to recieve response')
-    bytesAddressPair = server_socket.recvfrom(1024)
-    message = bytesAddressPair[0]
-    address = bytesAddressPair[1]
+    while True:
+        # ---- User feedback ----
+        print('Waiting to recieve datagram from client')
+        # -----------------------
+        
+        [message, address] = server_socket.recvfrom(1024)
+        
+        # ---- User feedback ----
+        print('Datagram received from client')
+        # -----------------------
 
-    print('Recieved response, should be an empty datagram')
-    print(message)
-    if message == b'':
-        print('Message is empty datagram')
-        data = get_time_since_1900_bin()
-        data_as_bytes = data.encode()
-        server_socket.sendto(data_as_bytes, address)
-    else:
-        print('Message is not empty!')
-    
-    print('End program')
+        # Check if datagram is empty
+        if message == b'':
+            # Get time & do error check
+            data = get_time_since_1900_bin()
+            if data != 'error':
+                # Encode & send time to client
+                data_as_bytes = data.encode()
+                server_socket.sendto(data_as_bytes, address)
+                
+                # ---- User feedback ----
+                print('Time literal was send to the client')
+                # -----------------------
+            else:
+                # ---- User feedback ----
+                print('Time literal was not send to client, because there was an error in determining the time')
+                # -----------------------
+        else:
+            # ---- User feedback ----
+            print('Time literal was not send to client, because datagram was not empty')
+            # -----------------------
+        
+        # Give the user the opertunity to terminate the server
+        x = input('Do you want to terminate the server? Y: Yes, N: No \n').lower()
+        if x == 'y' or x == 'yes':
+            break
 
 
 if __name__ == '__main__':

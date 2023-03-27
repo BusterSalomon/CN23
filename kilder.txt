@@ -2,3 +2,4 @@ UDP server-client python: https://pythontic.com/modules/socket/udp-client-server
 Python socket api: https://docs.python.org/3/library/socket.html#socket.SOCK_STREAM
 TCP server-client python: https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 Socket programming in python: https://realpython.com/python-sockets/#tcp-sockets 
+Host: LAPTOP-BOMU2OBI
