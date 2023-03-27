@@ -1,7 +1,7 @@
 import socket
 import datetime
 
-def convert_sec_to_date_from_1900 (time_in_sec):
+def convert_sec_from_1900_to_date (time_in_sec):
     # Create a datetime object for January 1st, 1900 at midnight
     start_date = datetime.datetime(1900, 1, 1, 0, 0, 0)
 
@@ -31,7 +31,7 @@ def client_program():
     time_bits = time_as_bytes.decode()
     time_secs = int(time_bits, 2)
 
-    time_as_date = convert_sec_to_date_from_1900(time_secs)
+    time_as_date = convert_sec_from_1900_to_date(time_secs)
     
     print('Time received from server in bits: ' + time_bits)  # show in terminal
     print('Time received from server in secs : ' + str(time_secs))  # show in terminal
