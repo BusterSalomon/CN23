@@ -2,23 +2,27 @@ import socket
 import datetime
 
 
-def get_time_since_1900_sec ():
-    # Create a datetime object for January 1st, 1900 at midnight
-    start_date = datetime.datetime(1900, 1, 1, 0, 0, 0)
+def get_time_since_1900_bin ():
+    try:
+        # Create a datetime object for January 1st, 1900 at midnight
+        start_date = datetime.datetime(1900, 1, 1, 0, 0, 0)
 
-    # Get the current datetime object
-    current_date = datetime.datetime.now()
+        # Get the current datetime object
+        current_date = datetime.datetime.now()
 
-    # Calculate the time difference between the two datetime objects
-    time_difference = current_date - start_date
+        # Calculate the time difference between the two datetime objects
+        time_difference = current_date - start_date
 
-    # Convert the time difference to seconds
-    time_in_seconds = time_difference.total_seconds()
+        # Convert the time difference to seconds
+        time_in_seconds = time_difference.total_seconds()
 
-    return int(time_in_seconds)
+        # Convert to binary
+        time_in_bin = bin(int(time_in_seconds)).replace('0b', '')
 
-def convert_sec_to_bin (time_in_sec):
-    return bin(time_in_sec).replace('0b', '')
+        return time_in_bin
+    
+    except:
+        return 'error'
 
 def server_program():
     # get the hostname
@@ -42,7 +46,7 @@ def server_program():
     print(message)
     if message == b'':
         print('Message is empty datagram')
-        data = convert_sec_to_bin(get_time_since_1900_sec())
+        data = get_time_since_1900_bin
         data_as_bytes = str.encode(data)
         server_socket.sendto(data_as_bytes, address)
     else:
