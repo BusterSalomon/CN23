@@ -16,7 +16,7 @@ def client_program():
     # U2: Recieve the time
     data = client_socket.recv(1024).decode()  # receive response
     print('Time received from server: ' + data)  # show in terminal
-    print('Time received from server: ' + convert_sec_to_date_from_1900(int(data)))  # show in terminal
+    print('Time received from server: ' + convert_sec_to_date_from_1900(int(data,2)))  # show in terminal
 
     # U3: Close the connection
     client_socket.close()  # close the connection
