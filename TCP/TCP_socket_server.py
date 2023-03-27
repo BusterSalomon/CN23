@@ -30,14 +30,17 @@ def server_program():
     port = 37  # initiate port no above 1024
 
     server_socket = socket.socket(type=socket.SOCK_STREAM)  #instantiate TCP socket
+    print("Created TCP socket")
+
     # look closely. The bind() function takes tuple as argument
     server_socket.bind((host, port))  # bind host address and port together
-
+    print(f"Bind socket to host: {host}, port: {port}")
     
     # S1: Listen on port 37
     server_socket.listen(1) # arg: configure how many client the server can listen simultaneously
+    print(f"Started listening at port {port}")
     conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address)) 
+    print("Accpedted connection from: " + str(address)) 
     
     # S2: Send the time as a 32 bit binary number.
     data = get_time_since_1900_bin()
@@ -46,16 +49,20 @@ def server_program():
     # Else send time
     if data != -1:
         conn.send(data.encode())  # send data to the client
-        
+        print("Time was send to client")
+
         # S3: Close the connection
         # Wait for client to close connection first
+        print("Waitng for client to disconnect")
         while True:
             # Check if client have disconnected
             data = conn.recv(1024).decode()
             if not data:
+                print("Client disconnected")
                 break
 
     conn.close()  # close the connection
+    print("Closed connection")
 
 
 if __name__ == '__main__':
