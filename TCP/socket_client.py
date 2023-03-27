@@ -10,7 +10,7 @@ def client_program():
     # U1: Connect to port 37
     client_socket.connect((host, port))  # connect to the server
 
-    # U2: Recieve thetime
+    # U2: Recieve the time
     data = client_socket.recv(1024).decode()  # receive response
     print('Time received from server: ' + data)  # show in terminal
 

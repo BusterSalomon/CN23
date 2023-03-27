@@ -5,17 +5,18 @@ def client_program():
     host = socket.gethostname()  # IP of server
     port = 37  # socket server port number
 
-    client_socket = socket.socket(type=socket.SOCK_STREAM)  # instantiate TCP socket
+    client_socket = socket.socket(type=socket.SOCK_DGRAM)  # instantiate TCP socket
 
-    # U1: Connect to port 37
-    client_socket.connect((host, port))  # connect to the server
+    # U1: Send empty datargam
+    client_socket.sendto(b'', (host, port))
 
-    # U2: Recieve thetime
-    data = client_socket.recv(1024).decode()  # receive response
-    print('Time received from server: ' + data)  # show in terminal
+    # U2: Receive the time datagram
+    # - Note that it is a blocking call, it waits for a response
+    bytesAddressPair = client_socket.recvfrom(1024)
+    time = bytesAddressPair[0]
 
-    # U3: Close the connection
-    client_socket.close()  # close the connection
+    print('Time received from server: ' + time)  # show in terminal
+   
 
 
 if __name__ == '__main__':
