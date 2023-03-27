@@ -1,0 +1,22 @@
+import socket
+
+
+def client_program():
+    host = socket.gethostname()  # IP of server
+    port = 37  # socket server port number
+
+    client_socket = socket.socket(type=socket.SOCK_STREAM)  # instantiate TCP socket
+
+    # U1: Connect to port 37
+    client_socket.connect((host, port))  # connect to the server
+
+    # U2: Recieve thetime
+    data = client_socket.recv(1024).decode()  # receive response
+    print('Time received from server: ' + data)  # show in terminal
+
+    # U3: Close the connection
+    client_socket.close()  # close the connection
+
+
+if __name__ == '__main__':
+    client_program()
