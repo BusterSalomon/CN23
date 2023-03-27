@@ -18,12 +18,12 @@ def get_time_since_1900_sec ():
     return int(time_in_seconds)
 
 def convert_sec_to_bin (time_in_sec):
-    return bin(time_in_sec).removeprefix("0b")
+    return bin(time_in_sec).replace('0b', '')
 
 def server_program():
     # get the hostname
     print('Created host + port')
-    host = socket.gethostname()
+    host = socket.gethostname() # Replace with server IP!
     port = 37  # initiate port no above 1024
 
     print('Created socket')

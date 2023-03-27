@@ -18,11 +18,11 @@ def get_time_since_1970_sec ():
     return int(time_in_seconds)
 
 def convert_sec_to_bin (time_in_sec):
-    return bin(time_in_sec).removeprefix("0b")
+    return bin(time_in_sec).replace('0b', '')
 
 def server_program():
     # get the hostname
-    host = socket.gethostname()
+    host = socket.gethostname() # Replace with server IP!
     port = 37  # initiate port no above 1024
 
     server_socket = socket.socket(type=socket.SOCK_STREAM)  #instantiate TCP socket

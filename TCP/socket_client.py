@@ -5,7 +5,7 @@ def convert_sec_to_date_from_1900(sec):
     return (datetime.datetime(1900, 1, 1) + datetime.timedelta(seconds=sec)).strftime("%Y-%m-%d %H:%M:%S")
 
 def client_program():
-    host = socket.gethostname()  # IP of server
+    host = socket.gethostname() # Replace with server IP!
     port = 37  # socket server port number
 
     client_socket = socket.socket(type=socket.SOCK_STREAM)  # instantiate TCP socket

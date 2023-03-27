@@ -12,7 +12,7 @@ def convert_sec_to_date_from_1900 (time_in_sec):
 
 def client_program():
     print('Created host + port')
-    host = socket.gethostname()  # IP of server
+    host = socket.gethostname() # Replace with server IP!
     port = 37  # socket server port number
 
     print('Created socket')
