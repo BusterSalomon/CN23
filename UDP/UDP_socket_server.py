@@ -46,8 +46,8 @@ def server_program():
     print(message)
     if message == b'':
         print('Message is empty datagram')
-        data = get_time_since_1900_bin
-        data_as_bytes = str.encode(data)
+        data = get_time_since_1900_bin()
+        data_as_bytes = data.encode()
         server_socket.sendto(data_as_bytes, address)
     else:
         print('Message is not empty!')
