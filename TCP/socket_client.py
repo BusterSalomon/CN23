@@ -1,5 +1,8 @@
 import socket
+import datetime
 
+def convert_sec_to_date_from_1900(sec):
+    return (datetime.datetime(1900, 1, 1) + datetime.timedelta(seconds=sec)).strftime("%Y-%m-%d %H:%M:%S")
 
 def client_program():
     host = socket.gethostname()  # IP of server
@@ -13,6 +16,7 @@ def client_program():
     # U2: Recieve the time
     data = client_socket.recv(1024).decode()  # receive response
     print('Time received from server: ' + data)  # show in terminal
+    print('Time received from server: ' + convert_sec_to_date_from_1900(int(data)))  # show in terminal
 
     # U3: Close the connection
     client_socket.close()  # close the connection
