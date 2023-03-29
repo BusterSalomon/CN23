@@ -1,13 +1,14 @@
 import socket
-import datetime
 import sys
 import time
 
 
 def get_time_since_1900_bin ():
     try:
+        SECONDS_FROM_1900_TO_1970 = 2208988800
+
         # Convert the time difference to seconds
-        time_in_seconds = int(time.time()) + 2208988800
+        time_in_seconds = int(time.time()) + SECONDS_FROM_1900_TO_1970
 
         # Convert to bytes
         time_in_bytes = time_in_seconds.to_bytes(4, 'big')

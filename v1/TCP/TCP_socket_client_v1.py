@@ -4,11 +4,10 @@ import sys
 
 def convert_sec_from_1900_to_date (time_in_sec):
     # Create a datetime object for January 1st, 1900 at midnight
-    SECONDS_FROM_1900_TO_1970 = 2208988800
-    data = time_in_sec - SECONDS_FROM_1900_TO_1970
+    start_date = datetime.datetime(1900, 1, 1, 0, 0, 0)
 
     # Add the time in seconds to the start date
-    time_in_date = datetime.datetime.fromtimestamp(data).strftime('%c')
+    time_in_date = start_date + datetime.timedelta(seconds=time_in_sec)
 
     return time_in_date
 
