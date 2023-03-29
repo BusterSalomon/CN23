@@ -1,32 +1,25 @@
 import socket
 import datetime
 import sys
+import time
 
 
 def get_time_since_1900_bin ():
     try:
-        # Create a datetime object for January 1st, 1900 at midnight
-        start_date = datetime.datetime(1900, 1, 1, 0, 0, 0)
-
-        # Get the current datetime object
-        current_date = datetime.datetime.now()
-
-        # Calculate the time difference between the two datetime objects
-        time_difference = current_date - start_date
-
         # Convert the time difference to seconds
-        time_in_seconds = time_difference.total_seconds()
+        time_in_seconds = int(time.time()) + 2208988800
 
-        # Convert to binary
-        time_in_bin = bin(int(time_in_seconds)).replace('0b', '')
+        # Convert to bytes
+        time_in_bytes = time_in_seconds.to_bytes(4, 'big')
 
-        return time_in_bin
+        # Return
+        return time_in_bytes
     
     except:
         return 'error'
 
 def server_program():
-    host = socket.gethostname()
+    host = socket.gethostname() # Replace with server IP!
     port = int(sys.argv[1])
 
     # Instantiate TCP socket & bind host to port
@@ -62,7 +55,7 @@ def server_program():
         # Close connection if unable to get time on site
         # else send time
         if data != 'error':
-            conn.send(data.encode())  # send data to the client
+            conn.send(data)  # send data to the client
             
             # ---- User feedback ----
             print("Time was send to client")

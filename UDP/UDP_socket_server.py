@@ -15,12 +15,13 @@ def get_time_since_1900_bin ():
         time_difference = current_date - start_date
 
         # Convert the time difference to seconds
-        time_in_seconds = time_difference.total_seconds()
+        time_in_seconds = int(time_difference.total_seconds())
+        
+        # Convert to bytes
+        time_in_bytes = time_in_seconds.to_bytes(4, 'big')
 
-        # Convert to binary
-        time_in_bin = bin(int(time_in_seconds)).replace('0b', '')
-
-        return time_in_bin
+        # Return
+        return time_in_bytes
     
     except:
         return 'error'
@@ -58,10 +59,9 @@ def server_program():
         # Check if datagram is empty
         if message == b'':
             # Get time & do error check
-            data = get_time_since_1900_bin()
-            if data != 'error':
+            data_as_bytes = get_time_since_1900_bin()
+            if data_as_bytes != 'error':
                 # Encode & send time to client
-                data_as_bytes = data.encode()
                 server_socket.sendto(data_as_bytes, address)
                 
                 # ---- User feedback ----

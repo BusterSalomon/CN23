@@ -41,12 +41,10 @@ def client_program():
     # ------------------------
 
     # Decode & convert
-    time_bits = time_as_bytes.decode()
-    time_secs = int(time_bits, 2)
+    time_secs = int.from_bytes(time_as_bytes, 'big')
     time_as_date = convert_sec_from_1900_to_date(time_secs)
     
     # ---- User feedback -----
-    print('Seconds since 01/01/1900 received from server in bits: ' + time_bits)  # show in terminal
     print('Seconds since 01/01/1900 received: ' + str(time_secs))  # show in terminal
     print('Seconds since 01/01/1900 converted to date: ' + str(time_as_date))  # show in terminal
     # ------------------------
